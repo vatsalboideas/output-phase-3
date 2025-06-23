@@ -543,7 +543,7 @@
 .india-weekend .horizontal-scroll-wrapper .horizontal .card-wrapper .card .card-top .card-img {
   width: 100%;
   height: auto;
-  aspect-ratio: 74/83;
+  aspect-ratio: 1;
   -o-object-fit: cover;
      object-fit: cover;
   display: flex;
