@@ -376,23 +376,16 @@
   justify-content: space-between;
   width: 100%;
 }
-.india-weekend .navigation-buttons {
+.india-weekend .navigation-prev-btn,
+.india-weekend .navigation-next-btn {
   position: absolute;
-  left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 1rem;
-  z-index: 4;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 9.375rem;
-}
-.india-weekend .navigation-buttons button {
-  position: relative;
-  z-index: 4;
+  transform: translate(0, -50%);
+  height: -moz-max-content;
+  height: max-content;
+  width: -moz-max-content;
+  width: max-content;
+  z-index: 5;
   width: 50px;
   height: 50px;
   border: none;
@@ -404,9 +397,15 @@
   font-size: 1.2rem;
   outline: none;
 }
-.india-weekend .navigation-buttons button:hover {
+.india-weekend .navigation-prev-btn:hover,
+.india-weekend .navigation-next-btn:hover {
   background: #ff00b4;
-  transform: scale(1.1);
+}
+.india-weekend .navigation-prev-btn {
+  left: 8%;
+}
+.india-weekend .navigation-next-btn {
+  right: 5%;
 }
 .india-weekend .controls-time {
   position: absolute;
@@ -441,18 +440,37 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  position: relative;
 }
 .india-weekend .controls-time .time-toggle-group .toggle-btn span {
   display: block;
   font-size: 1.25rem;
 }
+.india-weekend .controls-time .time-toggle-group .toggle-btn .icon {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  z-index: 5;
+}
+.india-weekend .controls-time .time-toggle-group .toggle-btn .icon img {
+  width: 30px;
+  aspect-ratio: 1;
+  height: auto;
+  rotate: -90deg;
+}
 .india-weekend .controls-time .time-toggle-group .toggle-btn:hover {
   background-color: #ff00b4;
   color: #fff;
 }
+.india-weekend .controls-time .time-toggle-group .toggle-btn:hover .icon img {
+  filter: brightness(0) saturate(100%) invert(100%);
+}
 .india-weekend .controls-time .time-toggle-group .active {
   background-color: #ff00b4;
   color: #fff;
+}
+.india-weekend .controls-time .time-toggle-group .active .icon img {
+  filter: brightness(0) saturate(100%) invert(100%);
 }
 .india-weekend .day-navigation {
   display: flex;
@@ -601,6 +619,23 @@
   background-image: url("./images/night.svg");
   width: 25px;
 }
+.india-weekend .show-card-modal .carousel-control-next,
+.india-weekend .show-card-modal .carousel-control-prev {
+  background-color: #ff00b4;
+  height: -moz-max-content;
+  height: max-content;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.india-weekend .show-card-modal .carousel-control-next {
+  right: 5%;
+}
+.india-weekend .show-card-modal .carousel-control-prev {
+  left: 5%;
+}
 .india-weekend .show-card-modal .modal-body {
   padding: 0;
 }
@@ -638,6 +673,7 @@
   right: 1.25rem;
   top: 1.25rem;
   z-index: 10;
+  outline: none;
 }
 .india-weekend .show-card-modal .show-card-modal-description .top table {
   z-index: 2;
@@ -933,28 +969,6 @@
   scale: 2;
 }
 
-.modal .carousel-control-prev-icon,
-.modal .carousel-control-next-icon {
-  position: relative;
-  z-index: 2;
-  padding: 20px;
-}
-.modal .carousel-control-prev-icon::before,
-.modal .carousel-control-next-icon::before {
-  z-index: 1;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  content: "";
-  position: absolute;
-  background-color: #ff00b4;
-}
-.modal .carousel-control-prev-icon p,
-.modal .carousel-control-next-icon p {
-  font-size: 1.25rem;
-}
-
 /* Video container with 16:9 aspect ratio */
 .video-container {
   position: relative;
@@ -1144,6 +1158,7 @@
        object-fit: cover;
   }
   .india-weekend .full-width-section .fullscreen-hover-card .hover-card {
+    margin-top: -10px;
     width: 100%;
     opacity: 1;
     visibility: visible;
@@ -1214,10 +1229,23 @@
     padding: 0.625rem;
     font-size: 1rem;
     white-space: nowrap;
+    position: relative;
   }
   .india-weekend .controls-time .time-toggle-group .toggle-btn span {
     display: block;
     font-size: 0.875rem;
+  }
+  .india-weekend .controls-time .time-toggle-group .toggle-btn .icon {
+    top: 8px;
+    right: 10px;
+    left: unset;
+    display: inline-block;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  .india-weekend .controls-time .time-toggle-group .toggle-btn .icon img {
+    width: 15px;
+    rotate: 0deg;
   }
   .india-weekend .controls-time .time-toggle-group .toggle-btn:hover {
     background-color: #ff00b4;

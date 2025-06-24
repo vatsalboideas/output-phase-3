@@ -616,37 +616,65 @@ $button-pink: #ff00b4;
     // position: relative;
   }
 
-  .navigation-buttons {
+  // .navigation-buttons {
+  //   position: absolute;
+  //   left: 50%;
+  //   top: 50%;
+  //   transform: translate(-50%, -50%);
+  //   display: flex;
+  //   gap: 1rem;
+  //   z-index: 4;
+  //   width: 100%;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   padding: 0 px-to-rem(150);
+  //   button {
+  //     position: relative;
+  //     z-index: 4;
+  //     width: 50px;
+  //     height: 50px;
+  //     border: none;
+  //     border-radius: 50%;
+  //     background: rgba($color: $primary-color, $alpha: 0.7);
+  //     color: #fff;
+  //     cursor: pointer;
+  //     transition: all 0.3s ease;
+  //     font-size: 1.2rem;
+  //     outline: none;
+  //     &:hover {
+  //       background: $primary-color;
+  //       transform: scale(1.1);
+  //     }
+  //   }
+  // }
+  .navigation-prev-btn,
+  .navigation-next-btn {
     position: absolute;
-    left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    gap: 1rem;
-    z-index: 4;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 px-to-rem(150);
-    button {
-      position: relative;
-      z-index: 4;
-      width: 50px;
-      height: 50px;
-      border: none;
-      border-radius: 50%;
-      background: rgba($color: $primary-color, $alpha: 0.7);
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.2rem;
-      outline: none;
-      &:hover {
-        background: $primary-color;
-        transform: scale(1.1);
-      }
+    transform: translate(0, -50%);
+    height: max-content;
+    width: max-content;
+    z-index: 5;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: rgba($color: $primary-color, $alpha: 0.7);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    outline: none;
+    &:hover {
+      background: $primary-color;
     }
+  }
+  .navigation-prev-btn {
+    left: 8%;
+  }
+  .navigation-next-btn {
+    right: 5%;
   }
   .controls-time {
     position: absolute;
@@ -684,20 +712,44 @@ $button-pink: #ff00b4;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
+        position: relative;
         span {
           display: block;
           font-size: px-to-rem(20);
+        }
+        .icon {
+          position: absolute;
+          top: 20px;
+          left: 10px;
+          // background-color: red;
+          z-index: 5;
+          img {
+            width: 30px;
+            aspect-ratio: 1;
+            height: auto;
+            rotate: -90deg;
+          }
         }
         &:hover {
           // color: #fff;
           // transform: translateY(-1px);
           background-color: $primary-color;
           color: #fff;
+          .icon {
+            img {
+              filter: brightness(0) saturate(100%) invert(100%);
+            }
+          }
         }
       }
       .active {
         background-color: $primary-color;
         color: #fff;
+        .icon {
+          img {
+            filter: brightness(0) saturate(100%) invert(100%);
+          }
+        }
       }
     }
   }
@@ -908,6 +960,22 @@ $button-pink: #ff00b4;
   }
 
   .show-card-modal {
+    .carousel-control-next,
+    .carousel-control-prev {
+      background-color: $primary-color;
+      height: max-content;
+      width: max-content;
+      padding: 10px;
+      // border-radius: 100%;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+    .carousel-control-next {
+      right: 5%;
+    }
+    .carousel-control-prev {
+      left: 5%;
+    }
     .modal-body {
       padding: 0;
       .row {
@@ -946,6 +1014,7 @@ $button-pink: #ff00b4;
           right: px-to-rem(20);
           top: px-to-rem(20);
           z-index: 10;
+          outline: none;
         }
         table {
           z-index: 2;
@@ -1252,30 +1321,6 @@ $button-pink: #ff00b4;
     scale: 2;
   }
 }
-.modal {
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    position: relative;
-    z-index: 2;
-    &::before {
-      z-index: 1;
-      height: 100%;
-      width: 100%;
-      left: 0;
-      top: 0;
-      content: "";
-      position: absolute;
-      background-color: $primary-color;
-    }
-    padding: 20px;
-    // .sr-only{
-    //   z-index: 3;
-    // }
-    p {
-      font-size: px-to-rem(20);
-    }
-  }
-}
 
 /* Video container with 16:9 aspect ratio */
 .video-container {
@@ -1306,10 +1351,10 @@ $button-pink: #ff00b4;
   }
 }
 
-.indiaweekendmodal{
-  .carousel-inner{
-    .carousel-item{
-      img{
+.indiaweekendmodal {
+  .carousel-inner {
+    .carousel-item {
+      img {
         aspect-ratio: 74/83;
         object-fit: cover;
         object-position: center;
@@ -1318,20 +1363,17 @@ $button-pink: #ff00b4;
       }
     }
   }
-  .carousel-indicators{
-    li{
+  .carousel-indicators {
+    li {
       width: 15px;
       height: 15px;
       background-color: white;
       border-radius: 100%;
-    } 
-    .active{
-      background-color: $primary-color;
-
     }
-
-  } 
-  
+    .active {
+      background-color: $primary-color;
+    }
+  }
 }
 
 @media screen and (max-width: 1400px) {
@@ -1360,7 +1402,7 @@ $button-pink: #ff00b4;
         font-size: px-to-rem(36);
       }
     }
-    .text-bottom{
+    .text-bottom {
       font-size: px-to-rem(24);
     }
   }
@@ -1381,28 +1423,25 @@ $button-pink: #ff00b4;
           font-size: px-to-rem(18);
         }
       }
-      .fullscreen-hover-card{
-        .hover-card{
+      .fullscreen-hover-card {
+        .hover-card {
           width: px-to-rem(300);
           padding: px-to-rem(10) px-to-rem(12) px-to-rem(25);
-          .card-top{
-            h2{
-              font-size: px-to-rem( 30);
+          .card-top {
+            h2 {
+              font-size: px-to-rem(30);
             }
-            .letter{
-              font-size: px-to-rem( 30);
-
+            .letter {
+              font-size: px-to-rem(30);
             }
           }
-          .card-bottom{
-            .card-description{
-
-              h2{
-                font-size: px-to-rem(16 );
+          .card-bottom {
+            .card-description {
+              h2 {
+                font-size: px-to-rem(16);
               }
-              h3{
-                font-size: px-to-rem(16 );
-
+              h3 {
+                font-size: px-to-rem(16);
               }
             }
           }
@@ -1419,7 +1458,7 @@ $button-pink: #ff00b4;
         font-size: px-to-rem(32);
       }
     }
-    .text-bottom{
+    .text-bottom {
       font-size: px-to-rem(18);
     }
   }
@@ -1502,6 +1541,7 @@ $button-pink: #ff00b4;
         }
 
         .hover-card {
+          margin-top: -10px;
           width: 100%;
           opacity: 1;
           visibility: visible;
@@ -1594,10 +1634,25 @@ $button-pink: #ff00b4;
           padding: px-to-rem(10);
           font-size: px-to-rem(16);
           white-space: nowrap;
+          position: relative;
           span {
             display: block;
             font-size: px-to-rem(14);
           }
+          .icon {
+            top: 8px;
+            right: 10px;
+            left: unset;
+            display: inline-block;
+            width: max-content;
+
+            img {
+              width: 15px;
+
+              rotate: 0deg;
+            }
+          }
+
           &:hover {
             // color: #fff;
             // transform: translateY(-1px);
@@ -1791,23 +1846,19 @@ $button-pink: #ff00b4;
       }
     }
   }
-  .nma-modal 
-  {
-
+  .nma-modal {
     .modal-body {
-      
-      .modal-close{
+      .modal-close {
         height: 15px;
         padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 15px;
-        img{
+        img {
           width: 8px;
         }
+      }
     }
-  }
-
   }
 }
