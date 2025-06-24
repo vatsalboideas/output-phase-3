@@ -678,6 +678,7 @@
   line-height: 100%;
   color: #fff;
   letter-spacing: 3px;
+  text-transform: capitalize;
 }
 .india-weekend .show-card-modal .show-card-modal-description .bottom p {
   margin: 0;
@@ -982,6 +983,15 @@
   transform: translate(-50%, -50%) !important;
 }
 
+.indiaweekendmodal .carousel-inner .carousel-item img {
+  aspect-ratio: 74/83;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  width: 100%;
+  height: auto;
+}
 .indiaweekendmodal .carousel-indicators li {
   width: 15px;
   height: 15px;

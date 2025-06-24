@@ -986,6 +986,7 @@ $button-pink: #ff00b4;
           line-height: 100%;
           color: #fff;
           letter-spacing: 3px;
+          text-transform: capitalize;
         }
         p {
           margin: 0;
@@ -1306,6 +1307,17 @@ $button-pink: #ff00b4;
 }
 
 .indiaweekendmodal{
+  .carousel-inner{
+    .carousel-item{
+      img{
+        aspect-ratio: 74/83;
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
   .carousel-indicators{
     li{
       width: 15px;
