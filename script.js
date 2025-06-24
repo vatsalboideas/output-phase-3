@@ -1,4 +1,4 @@
-AOS.init({disable: 'mobile'});
+AOS.init({ disable: "mobile" });
 if (window.innerWidth > 991) {
   // const hoverSection = document.getElementById("hoverSection");
   // const followCard = document.getElementById("full-screen-hover-card");
@@ -202,7 +202,6 @@ if (window.innerWidth > 991) {
 //   lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For mobile
 // });
 
-
 // const scrollignCardsContainer = document.getElementById(
 //   "scrolling-card-wrapper"
 // );
@@ -384,6 +383,201 @@ if (window.innerWidth > 991) {
 //   ScrollTrigger.refresh();
 // });
 
+//  working from here
+
+// gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+// // Variables
+// let horizontalSection = document.querySelector(".horizontal");
+// let scrollingCardWrapper = document.getElementById("scrolling-card-wrapper");
+// let tween;
+// let currentScrollTrigger;
+
+// // Navigation elements
+// const prevButton = document.getElementById("prev-btn");
+// const nextButton = document.getElementById("next-btn");
+// const dayButtons = document.querySelectorAll(".day-btn");
+// const toggleDayBtn = document.getElementById("toggle-day");
+// const toggleNightBtn = document.getElementById("toggle-night");
+
+// let currentMode = "day"; // 'day' or 'night'
+
+// // Day/Night toggle functionality
+// toggleDayBtn.addEventListener("click", function () {
+//   currentMode = "day";
+//   updateToggleButtons();
+//   // Navigate to current day's day section
+//   const activeDay = document.querySelector(".day-btn.active");
+//   if (activeDay) {
+//     const target = activeDay.getAttribute("data-target");
+//     scrollToTarget(target);
+//   }
+// });
+
+// toggleNightBtn.addEventListener("click", function () {
+//   currentMode = "night";
+//   updateToggleButtons();
+//   // Navigate to current day's night section
+//   const activeDay = document.querySelector(".day-btn.active");
+//   if (activeDay) {
+//     const target = activeDay.getAttribute("data-night-target");
+//     scrollToTarget(target);
+//   }
+// });
+
+// function updateToggleButtons() {
+//   toggleDayBtn.classList.toggle("active", currentMode === "day");
+//   toggleNightBtn.classList.toggle("active", currentMode === "night");
+// }
+
+// // Individual day buttons - MODIFIED TO AUTO SWITCH TO DAY MODE
+// dayButtons.forEach((btn) => {
+//   btn.addEventListener("click", function (e) {
+//     e.preventDefault();
+
+//     // Update active day button
+//     dayButtons.forEach((b) => b.classList.remove("active"));
+//     btn.classList.add("active");
+
+//     // AUTOMATICALLY SWITCH TO DAY MODE when any date button is clicked
+//     currentMode = "day";
+//     updateToggleButtons();
+
+//     // Always navigate to the day target (not night)
+//     const target = btn.getAttribute("data-target");
+//     scrollToTarget(target);
+//   });
+// });
+
+// function scrollToTarget(targetSelector) {
+//   let targetElem = document.querySelector(targetSelector);
+//   let y = targetElem;
+
+//   if (targetElem && scrollingCardWrapper.contains(targetElem)) {
+//     // If target is within the horizontal scroll section
+//     let totalScroll = tween.scrollTrigger.end - tween.scrollTrigger.start;
+//     let totalMovement = scrollingCardWrapper.scrollWidth - window.innerWidth;
+//     let targetPosition = targetElem.offsetLeft;
+//     y = Math.round(
+//       (tween.scrollTrigger.start + (targetPosition / totalMovement) * totalScroll) - 150
+//     );
+//   }
+
+//   gsap.to(window, {
+//     scrollTo: {
+//       y: y,
+//       autoKill: false,
+//     },
+//     duration: 1,
+//     ease: "power2.out",
+//   });
+// }
+
+// function updateTimeButtonActive(activeTarget) {
+//   // Update day button based on target
+//   dayButtons.forEach((btn) => {
+//     const dayTarget = btn.getAttribute("data-target");
+//     const nightTarget = btn.getAttribute("data-night-target");
+
+//     if (dayTarget === activeTarget) {
+//       btn.classList.add("active");
+//       currentMode = "day";
+//     } else if (nightTarget === activeTarget) {
+//       btn.classList.add("active");
+//       currentMode = "night";
+//     } else {
+//       btn.classList.remove("active");
+//     }
+//   });
+
+//   updateToggleButtons();
+// }
+
+// // Create horizontal scroll animation
+// function createHorizontalScroll() {
+//   tween = gsap.to(scrollingCardWrapper, {
+//     x: () => -(scrollingCardWrapper.scrollWidth - window.innerWidth),
+//     ease: "none",
+//     scrollTrigger: {
+//       trigger: "#horizontal-scroll",
+//       pin: true,
+//       start: "center-=50px center",
+//       scrub: 1,
+//       // markers:true,
+//       end: () => `+=${scrollingCardWrapper.scrollWidth - window.innerWidth}`,
+//       invalidateOnRefresh: true,
+//       onUpdate: (self) => {
+//         updateActiveStatesOnScroll(self.progress);
+//       },
+//     },
+//   });
+
+//   currentScrollTrigger = tween.scrollTrigger;
+// }
+
+// // Update active states based on scroll position
+// function updateActiveStatesOnScroll(progress) {
+//   const targetCards = document.querySelectorAll(".card[id]");
+//   const totalWidth = scrollingCardWrapper.scrollWidth - window.innerWidth;
+//   const currentPosition = progress * totalWidth;
+
+//   let activeTarget = "#day-12-day"; // default
+
+//   targetCards.forEach((card) => {
+//     const cardPosition = card.offsetLeft;
+//     if (currentPosition >= cardPosition - 200) {
+//       // 100px threshold
+//       activeTarget = "#" + card.id;
+//     }
+//   });
+
+//   // Update active button based on current target
+//   updateTimeButtonActive(activeTarget);
+// }
+
+// // Navigation buttons functionality
+// function scrollToPosition(progress) {
+//   if (currentScrollTrigger) {
+//     const scrollPosition =
+//       currentScrollTrigger.start +
+//       (currentScrollTrigger.end - currentScrollTrigger.start) * progress;
+//     gsap.to(window, {
+//       scrollTo: {
+//         y: scrollPosition,
+//         autoKill: false,
+//       },
+//       duration: 0.8,
+//       ease: "power2.out",
+//     });
+//   }
+// }
+
+// prevButton?.addEventListener("click", () => {
+//   const currentProgress = currentScrollTrigger
+//     ? currentScrollTrigger.progress
+//     : 0;
+//   const newProgress = Math.max(0, currentProgress - 0.15);
+//   scrollToPosition(newProgress);
+// });
+
+// nextButton?.addEventListener("click", () => {
+//   const currentProgress = currentScrollTrigger
+//     ? currentScrollTrigger.progress
+//     : 0;
+//   const newProgress = Math.min(1, currentProgress + 0.15);
+//   scrollToPosition(newProgress);
+// });
+
+// // Initialize
+// createHorizontalScroll();
+
+// // Handle resize
+// window.addEventListener("resize", () => {
+//   ScrollTrigger.refresh();
+// });
+
+// working till here
+
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 // Variables
@@ -457,9 +651,17 @@ function scrollToTarget(targetSelector) {
     let totalScroll = tween.scrollTrigger.end - tween.scrollTrigger.start;
     let totalMovement = scrollingCardWrapper.scrollWidth - window.innerWidth;
     let targetPosition = targetElem.offsetLeft;
-    y = Math.round(
-      tween.scrollTrigger.start + (targetPosition / totalMovement) * totalScroll
+
+    // Calculate the desired scroll position
+    let calculatedY = Math.round(
+      tween.scrollTrigger.start +
+        (targetPosition / totalMovement) * totalScroll -
+        150
     );
+
+    // Ensure we don't scroll beyond the end of the horizontal section
+    let maxScrollY = tween.scrollTrigger.end;
+    y = Math.min(calculatedY, maxScrollY);
   }
 
   gsap.to(window, {
@@ -524,7 +726,7 @@ function updateActiveStatesOnScroll(progress) {
 
   targetCards.forEach((card) => {
     const cardPosition = card.offsetLeft;
-    if (currentPosition >= cardPosition - 100) {
+    if (currentPosition >= cardPosition - 200) {
       // 100px threshold
       activeTarget = "#" + card.id;
     }
@@ -575,8 +777,6 @@ window.addEventListener("resize", () => {
   ScrollTrigger.refresh();
 });
 
-
-
 $(document).ready(function () {
   // Always run this (independent of above)
   const nmaModalVideoEl = document.getElementById("my-video-nma-modal");
@@ -622,9 +822,6 @@ $(document).ready(function () {
     }
   });
 
-
-  
-
   function adjustModalSize() {
     const modal = $(".nma-modal");
     const modalDialog = modal.find(".modal-dialog");
@@ -666,8 +863,6 @@ $(document).ready(function () {
       modalDialog.css("margin", "0.5rem auto");
     }
   }
-
- 
 });
 $(document).ready(function () {
   // Always run this (independent of above)
@@ -714,9 +909,6 @@ $(document).ready(function () {
     }
   });
 
-
-  
-
   function adjustModalSize() {
     const modal = $(".ctn-modal");
     const modalDialog = modal.find(".modal-dialog");
@@ -758,6 +950,4 @@ $(document).ready(function () {
       modalDialog.css("margin", "0.5rem auto");
     }
   }
-
- 
 });
