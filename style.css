@@ -237,20 +237,6 @@
   text-transform: uppercase;
   z-index: 1;
 }
-.india-weekend .full-width-section .fullscreen-hover-card .hover-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  background-image: url("./images/flowerswithoutbg-01.svg");
-  height: 100%;
-  width: 100%;
-  opacity: 0.5;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 .india-weekend .full-width-section .fullscreen-hover-card .hover-card .card-top,
 .india-weekend .full-width-section .fullscreen-hover-card .hover-card .card-bottom,
 .india-weekend .full-width-section .fullscreen-hover-card .hover-card .card-middle {
@@ -340,8 +326,44 @@
   visibility: visible;
   pointer-events: auto;
 }
-.india-weekend #horizontal-scroll {
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.india-weekend .text-marquee {
   margin-top: 6.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+  background-color: #ff00b4;
+}
+.india-weekend .text-marquee .marquee-content {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+.india-weekend .text-marquee .marquee-content .marquee-text {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: black;
+  margin-right: 1.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #fff;
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+.india-weekend #horizontal-scroll {
   height: calc(100vh - 100px);
   overflow: hidden;
   position: relative;
@@ -1193,8 +1215,8 @@
     font-size: 1.375rem;
     font-weight: 500;
   }
-  .india-weekend #horizontal-scroll {
-    margin-top: 3.125rem;
+  .india-weekend .text-marquee {
+    margin-top: 1.25rem;
   }
   .india-weekend #horizontal-scroll::before {
     background-color: rgba(0, 0, 0, 0.7);

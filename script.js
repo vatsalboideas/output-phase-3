@@ -951,3 +951,278 @@ $(document).ready(function () {
     }
   }
 });
+
+class SmoothMarquee {
+  constructor(containerId, contentId) {
+    this.container = document.getElementById(containerId);
+    this.content = document.getElementById(contentId);
+    this.startX = 0;
+    this.currentX = 0;
+    this.lastX = 0;
+    this.direction = "left";
+    this.baseSpeed = 1;
+    this.currentSpeed = 1;
+    this.isPaused = false;
+    this.animationId = null;
+    this.position = 0;
+    this.contentWidth = 0;
+    this.containerWidth = 0;
+    this.dragSensitivity = 0.8;
+    this.swipeThreshold = 30;
+    this.velocity = 0;
+    this.dragOffset = 0;
+
+    // Scroll control variables
+    this.lastScrollY = window.scrollY;
+    this.scrollThreshold = 10;
+    this.scrollDebounceTimer = null;
+    this.scrollSensitivity = 1;
+
+    this.init();
+  }
+
+  init() {
+    this.calculateDimensions();
+    this.setupEventListeners();
+    this.startAnimation();
+    this.updateStatus();
+  }
+
+  calculateDimensions() {
+    this.containerWidth = this.container.offsetWidth;
+    this.contentWidth = this.content.scrollWidth / 4; // Divide by number of repeated texts
+    console.log("Dimensions:", {
+      container: this.containerWidth,
+      content: this.contentWidth,
+    });
+  }
+
+  setupEventListeners() {
+    // Scroll events for direction control
+    window.addEventListener("scroll", this.handleScroll.bind(this), {
+      passive: true,
+    });
+
+    // Wheel events for more responsive scroll detection
+    window.addEventListener("wheel", this.handleWheel.bind(this), {
+      passive: true,
+    });
+
+    // Window resize
+    window.addEventListener("resize", () => {
+      this.calculateDimensions();
+    });
+
+    // Prevent default drag behavior on images/elements
+    this.container.addEventListener("dragstart", (e) => e.preventDefault());
+  }
+
+  handleScroll(e) {
+    const currentScrollY = window.scrollY;
+    const scrollDelta = currentScrollY - this.lastScrollY;
+
+    // Only respond to significant scroll changes
+    if (Math.abs(scrollDelta) > this.scrollThreshold) {
+      const newDirection = scrollDelta > 0 ? "right" : "left";
+
+      if (this.direction !== newDirection) {
+        this.changeDirection(newDirection);
+        this.showScrollFeedback(newDirection, scrollDelta);
+      }
+
+      this.lastScrollY = currentScrollY;
+    }
+  }
+
+  handleWheel(e) {
+    // More responsive wheel-based direction control
+    const wheelDelta = e.deltaY;
+
+    if (Math.abs(wheelDelta) > 5) {
+      const newDirection = wheelDelta > 0 ? "right" : "left";
+
+      if (this.direction !== newDirection) {
+        this.changeDirection(newDirection);
+        this.showScrollFeedback(newDirection, wheelDelta);
+      }
+    }
+  }
+
+  showScrollFeedback(direction, delta) {
+    const scrollIndicator = document.getElementById("scrollIndicator");
+    const statusIndicator = document.getElementById("statusIndicator");
+
+    // Update scroll indicator
+    scrollIndicator.style.background =
+      direction === "left"
+        ? "rgba(100, 150, 255, 0.3)"
+        : "rgba(255, 150, 100, 0.3)";
+    scrollIndicator.textContent = `🖱️ Scrolled ${direction.toUpperCase()}! Direction changed`;
+
+    // Update status with scroll info
+    statusIndicator.style.background =
+      direction === "left"
+        ? "rgba(100, 150, 255, 0.2)"
+        : "rgba(255, 150, 100, 0.2)";
+
+    // Clear feedback after delay
+    clearTimeout(this.scrollDebounceTimer);
+    this.scrollDebounceTimer = setTimeout(() => {
+      scrollIndicator.style.background = "rgba(255, 255, 255, 0.1)";
+      scrollIndicator.textContent =
+        "🖱️ Scroll to control: Up = Left | Down = Right";
+      statusIndicator.style.background = "rgba(0, 0, 0, 0.2)";
+      this.updateStatus();
+    }, 1500);
+  }
+
+  handleStart(e) {
+    // Only handle mouse events, not touch
+    if (e.type.includes("touch")) return;
+
+    this.startX = e.clientX;
+    this.lastX = this.startX;
+    this.container.style.cursor = "grabbing";
+    this.dragOffset = 0;
+
+    console.log("Mouse drag start at:", this.startX);
+    e.preventDefault();
+  }
+
+  handleMove(e) {
+    if (e.type.includes("touch")) return;
+
+    this.currentX = e.clientX;
+    const deltaX = this.currentX - this.lastX;
+    const totalDelta = this.currentX - this.startX;
+
+    this.lastX = this.currentX;
+    e.preventDefault();
+  }
+
+  handleEnd(e) {
+    // if (!this.isMouseDown) return;
+
+    const totalDelta = this.currentX - this.startX;
+
+    console.log("Mouse drag end:", {
+      totalDelta,
+      velocity: this.velocity,
+      threshold: this.swipeThreshold,
+    });
+
+    // Check for swipe gesture
+    if (Math.abs(totalDelta) > this.swipeThreshold) {
+      const newDirection = totalDelta > 0 ? "right" : "left";
+      console.log("Mouse swipe detected! Direction:", newDirection);
+      this.changeDirection(newDirection);
+
+      // Visual feedback
+      this.showSwipeFeedback(newDirection);
+    }
+
+    // Reset drag state
+    this.dragOffset = 0;
+    this.velocity = 0;
+    this.container.style.cursor = "grab";
+
+    e.preventDefault();
+  }
+
+  showSwipeFeedback(direction) {
+    const indicator = document.getElementById("statusIndicator");
+    indicator.style.background =
+      direction === "left"
+        ? "rgba(255, 100, 100, 0.3)"
+        : "rgba(100, 255, 100, 0.3)";
+    indicator.textContent = `🖱️ Dragged ${direction.toUpperCase()}! Direction changed.`;
+
+    setTimeout(() => {
+      indicator.style.background = "rgba(0, 0, 0, 0.2)";
+      this.updateStatus();
+    }, 1500);
+  }
+
+  animate() {
+    if (!this.isPaused) {
+      const moveDistance =
+        this.direction === "left" ? -this.currentSpeed : this.currentSpeed;
+      this.position += moveDistance;
+
+      // Reset position for infinite loop
+      if (this.direction === "left" && this.position <= -this.contentWidth) {
+        this.position = 0;
+      } else if (this.direction === "right" && this.position >= 0) {
+        this.position = -this.contentWidth;
+      }
+
+      // Apply drag offset during dragging
+      const finalPosition = this.position + this.dragOffset;
+      this.content.style.transform = `translateX(${finalPosition}px)`;
+    }
+
+    this.animationId = requestAnimationFrame(() => this.animate());
+  }
+
+  startAnimation() {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+    }
+    this.position = this.direction === "left" ? 0 : -this.contentWidth;
+    this.animate();
+  }
+
+  changeDirection(dir) {
+    if (this.direction === dir) return;
+
+    this.direction = dir;
+    console.log("Direction changed to:", dir);
+
+    // Smooth transition to new direction
+    if (dir === "right" && this.position < -this.contentWidth) {
+      this.position =
+        -this.contentWidth + (Math.abs(this.position) % this.contentWidth);
+    } else if (dir === "left" && this.position > 0) {
+      this.position = -(this.position % this.contentWidth);
+    }
+
+    this.updateStatus();
+  }
+
+  togglePause() {
+    this.isPaused = !this.isPaused;
+    const btn = document.getElementById("pauseBtn");
+    btn.textContent = this.isPaused ? "▶ Play" : "⏸ Pause";
+    console.log("Pause toggled:", this.isPaused);
+    this.updateStatus();
+  }
+
+  changeSpeed(newSpeed) {
+    this.baseSpeed = newSpeed;
+    this.currentSpeed = newSpeed;
+    console.log("Speed changed to:", newSpeed);
+    this.updateStatus();
+  }
+
+  updateStatus() {
+    const indicator = document.getElementById("statusIndicator");
+    const speedText =
+      this.baseSpeed === 2
+        ? "Fast"
+        : this.baseSpeed === 0.5
+        ? "Slow"
+        : "Normal";
+    const statusText = this.isPaused ? "Paused" : "Playing";
+    indicator.textContent = `Direction: ${
+      this.direction.charAt(0).toUpperCase() + this.direction.slice(1)
+    } | Speed: ${speedText} | Status: ${statusText}`;
+  }
+}
+
+// Initialize marquee
+let marquee;
+
+document.addEventListener("DOMContentLoaded", () => {
+  marquee = new SmoothMarquee("marqueeContainer", "marqueeContent");
+  console.log("Marquee initialized successfully");
+});
