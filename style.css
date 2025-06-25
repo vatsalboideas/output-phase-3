@@ -352,7 +352,7 @@
 .india-weekend .text-marquee .marquee-content .marquee-text {
   font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 700;
-  color: black;
+  color: white;
   margin-right: 1.875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -362,6 +362,21 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shimmer 3s ease-in-out infinite;
+}
+.india-weekend .text-still {
+  background-color: #ff00b4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.625rem 0;
+}
+.india-weekend .text-still h2 {
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
 }
 .india-weekend #horizontal-scroll {
   height: calc(100vh - 100px);

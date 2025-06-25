@@ -398,7 +398,7 @@ $button-pink: #ff00b4;
       .marquee-text {
         font-size: clamp(2rem, 5vw, 4rem);
         font-weight: 700;
-        color: black;
+        color: white;
         // text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         margin-right: px-to-rem(30);
         letter-spacing: 0.1em;
@@ -410,6 +410,22 @@ $button-pink: #ff00b4;
         background-clip: text;
         animation: shimmer 3s ease-in-out infinite;
       }
+    }
+  }
+
+  .text-still {
+    background-color: $primary-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100% ;
+    padding: px-to-rem(10) 0;
+    h2 {
+      color: #fff;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      margin: 0;
+      padding: 0;
     }
   }
 
@@ -1389,9 +1405,9 @@ $button-pink: #ff00b4;
 
     /* Horizontal Scroll Section */
 
-      .text-marquee {
-    margin-top: px-to-rem(20);
-  }
+    .text-marquee {
+      margin-top: px-to-rem(20);
+    }
     #horizontal-scroll {
       // margin-top: px-to-rem(50);
       &::before {
